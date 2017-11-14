@@ -5,8 +5,29 @@ import requests
 
 def test_mdm_environment():
     response = requests.get("https://httpbin.org/ip")
-    assert response.status_code == 200
+    assert False
+
 
 def test_arrangement_environment():
+    response = requests.get("https://httpbin.org/ip")
+    assert response.status_code == 200
+
+
+def test_party_environment():
+    response = requests.get("https://httpbin.org/ip")
+    assert response.status_code == 200
+
+
+def test_dirty_cache_environment():
+    response = requests.get("https://httpbin.org/ip")
+    assert response.status_code == 200
+
+
+def test_aem_environment():
+    response = requests.get("https://httpbin.org/ip")
+    assert response.status_code == 200
+
+
+def test_product_catalogue_environment():
     response = requests.get("https://httpbin.org/ip")
     assert response.status_code == 200

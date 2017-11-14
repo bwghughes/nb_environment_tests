@@ -8,7 +8,7 @@ BASE_URL = os.getenv("ENVSTATUS_BASE_URL")
 
 
 def get_slug_from_test_name(test_name):
-    return test_name[5:-12]
+    return test_name[5:-12].replace('_', '-')
 
 
 def _update_dashboard(name, result):
