@@ -13,7 +13,7 @@ def get_slug_from_test_name(test_name):
 
 def _update_dashboard(name, result):
     """ Function to post update to dashboard """
-    url = f"{os.getenv('ENVSTATUS_BASE_URL')}/update/{get_slug_from_test_name(name)}"
+    url = f"{os.getenv('ENVSTATUS_BASE_URL').strip()}/update/{get_slug_from_test_name(name)}"
     print(f"Updating dashboard at {url}...")
     response = requests.put(url, data=dict(status=result))
     assert response.status_code == 204
