@@ -1,7 +1,8 @@
 """ Utils for testing """
 import os
-import pytest
 import requests
+from requests.exceptions import ConnectionError
+
 
 class ReporterException(BaseException):
     pass
@@ -28,23 +29,29 @@ def update_or_create_environment(name: str, result):
     try:
         slug = get_slug_from_test_name(name)
     except TypeError as ex:
-        raise(ex)
+        raise ReporterException(ex)
 
     
     try:
-        url = f"{os.getenv('ENVSTATUS_BASE_URL').strip()}/{slug}"
+        url = f"{os.getenv('ENVSTATUS_BASE_URL').strip()}/environments/{slug}"
         print(f"Updating dashboard at {url}...")
         response = requests.get(url)
         
         if response.status_code == 404:
             print(f"Not found creating new for {name}...")
-            create_url = f"{os.getenv('ENVSTATUS_BASE_URL').strip()}/create/?name={get_proper_name_from_slug(slug)}"
+            create_url = f"{os.getenv('ENVSTATUS_BASE_URL').strip()}/environments/?name={get_proper_name_from_slug(slug)}"
             response = requests.post(create_url)
+        
+        # TODO Investigate wierdness - if I post with no value its good, anything
+        # else is True.
+        if not result:
+            result = ""
 
-        print(f"Updating {name}...")
-        url = f"{os.getenv('ENVSTATUS_BASE_URL').strip()}/update/{slug}"
-        response = requests.put(url, data=dict(status=result))
+        url = f"{os.getenv('ENVSTATUS_BASE_URL').strip()}/environments/{slug}?test_result={result}"
+        print(f"Updating {slug} with {result}...{type(result)}")
+        response = requests.put(url)
     except ReporterException as e:
         raise(e)
-
-
+    except ConnectionError as e:
+        print(e)
+        raise

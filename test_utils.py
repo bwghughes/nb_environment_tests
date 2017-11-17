@@ -33,8 +33,8 @@ def test_update_or_create_environment_post_called_if_get_is_404():
             with patch('requests.get') as mock_get:
                 mock_get.return_value = mock_response
                 update_or_create_environment('test_sys_called_environment', Mock())
-                assert mock_get.called
-                assert mock_post.called
+                assert mock_get.called_once_with(f"{BASE_URL}/environments/sys-called")
+                assert mock_post.called_once_with(f"{BASE_URL}/environments/?name=Sys%20%called")
                 assert mock_put.called
 
 def test_update_or_create_environment_post_called_if_get_is_broken_at_all():
@@ -45,7 +45,7 @@ def test_update_or_create_environment_post_called_if_get_is_broken_at_all():
 
 
 def test_update_or_create_environment_blows_up_if_dodgy_name():
-    with pytest.raises(TypeError) as e:
+    with pytest.raises(ReporterException) as e:
         with patch('utils.get_slug_from_test_name') as mock_slugger:
             mock_slugger.side_effect = TypeError
             update_or_create_environment('test_sys_called_environment', Mock())

@@ -1,33 +1,26 @@
 """ Name of tests important here. """
 import requests
+import pytest
+from requests.exceptions import ConnectionError
+from urllib3.exceptions import MaxRetryError
 
 """ Environment tests should be name test_<slug>_environment. This is how we know what to update on the dashboard. """
 
-def test_completely_new_environment():
-    response = requests.get("https://httpbin.org/ip")
-    assert response.status_code == 201
-
-
-def test_arrangement_environment():
-    response = requests.get("https://httpbin.org/ip")
-    assert response.status_code == 200
-
-
-def test_party_environment():
-    response = requests.get("https://httpbin.org/ip")
-    assert response.status_code == 201
-
-
-def test_dirty_cache_environment():
-    response = requests.get("https://httpbin.org/ip")
-    assert response.status_code == 201
-
-
 def test_aem_environment():
-    response = requests.get("https://httpbin.org/ip")
-    assert response.status_code == 200
+    assert requests.get("https://google.com").status_code == 200
 
 
-def test_product_catalogue_environment():
-    response = requests.get("https://httpbin.org/ip")
-    assert response.status_code == 200
+def test_mdm_environment():
+    assert requests.get("https://google.com").status_code == 200
+
+
+def test_nedbank_id_environment():
+    assert requests.get("https://google.com").status_code == 200
+
+
+def test_ecm_environment():
+    assert requests.get("https://google.com").status_code == 200
+
+
+def test_cde_environment():
+    assert requests.get("https://google.com").status_code == 200
